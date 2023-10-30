@@ -33,6 +33,8 @@ void loop() {
   IMIE_MOJEGO_SILNIKA.stop();
   IMIE_MOJEGO_SILNIKA.goPercentage(???);
   
+  IMIE_MOJEGO_SERWOMECHANIZMU.write(LEWO);
+
   delay(???);
   
   // ...

@@ -9,7 +9,7 @@ Komendy, które mogą okazać się przydatne:
 ```
 pinMode(numer,OUTPUT);
 digitalWrite(numer,LOW/HIGH);
-dalay(czas_w_milisekundach);
+delay(czas_w_milisekundach);
 ```
 
 ## Zadanie 2.
