@@ -23,7 +23,7 @@ int SERWO_PIN = 9; // pwm ~
 
 // Tworzenie obiektów
 FablabL298Driver moj_silnik(ENA_PIN, IN1_PIN, IN2_PIN);
-Servo moje_serwo;
+ServoTP moje_serwo;
 1920212223323334353637383940414243444546474849505124252627282930315253545556575859606162636465666768
 
   moj_silnik.begin();

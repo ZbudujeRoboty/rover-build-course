@@ -22,7 +22,7 @@ int SERWO_PIN = ?; // pwm ~
 
 // Tworzenie obiektów
 FablabL298Driver IMIE_MOJEGO_SILNIKA(ENA_PIN, IN1_PIN, IN2_PIN);
-Servo IMIE_MOJEGO_SERWOMECHANIZMU;
+ServoTP IMIE_MOJEGO_SERWOMECHANIZMU;
 
 void setup() {
   Serial.begin(9600);
