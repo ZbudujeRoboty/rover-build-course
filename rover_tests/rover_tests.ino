@@ -24,30 +24,9 @@ int SERWO_PIN = 9; // pwm ~
 // Tworzenie obiektów
 FablabL298Driver moj_silnik(ENA_PIN, IN1_PIN, IN2_PIN);
 ServoTP moje_serwo;
-1920212223323334353637383940414243444546474849505124252627282930315253545556575859606162636465666768
-
-  moj_silnik.begin();
-  moje_serwo.attach(SERWO_PIN);
-}
-
-void loop() {
-
-  Serial.println("Do tyłu 100%");
-  moj_silnik.backward();
-  moj_silnik.goPercentage(100);
-
-
 
 void setup() {
   Serial.begin(9600);
-192021222324252627282930313233343536373839404142434445464748495051
-  
-  Serial.println("Skręt na środek");
-  moje_serwo.write(PROSTO);
-  delay(1000);  
-}
-
-
   moj_silnik.begin();
   moje_serwo.attach(SERWO_PIN);
 }
