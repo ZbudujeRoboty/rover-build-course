@@ -2,6 +2,12 @@
 #include "FablabL298Driver.h"
 #include <Servo.h>
 
+// Dostosowanie klasy serwo
+class ServoTP: public Servo {
+public:
+  void write(int);
+};
+
 // Definicja kątów serwa
 #define LEWO ???
 #define W_PRAWO ???
@@ -41,4 +47,12 @@ void loop() {
   // ...
   // ...
 
+}
+
+// Dostosowanie klasy serwo
+void ServoTP::write(int value) {
+  long value_us = ((long)value * (2400-550)) / 170 + 550;
+  this->writeMicroseconds((int)(value_us));
+  Serial.println(value);
+  Serial.println(value_us);
 }

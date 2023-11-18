@@ -2,6 +2,12 @@
 #include "FablabL298Driver.h"
 #include <Servo.h>
 
+// Dostosowanie klasy serwo
+class ServoTP: public Servo {
+public:
+  void write(int);
+};
+
 // Definicja kątów serwa
 #define W_LEWO    25
 #define W_PRAWO   115
@@ -18,9 +24,30 @@ int SERWO_PIN = 9; // pwm ~
 // Tworzenie obiektów
 FablabL298Driver moj_silnik(ENA_PIN, IN1_PIN, IN2_PIN);
 Servo moje_serwo;
+1920212223323334353637383940414243444546474849505124252627282930315253545556575859606162636465666768
+
+  moj_silnik.begin();
+  moje_serwo.attach(SERWO_PIN);
+}
+
+void loop() {
+
+  Serial.println("Do tyłu 100%");
+  moj_silnik.backward();
+  moj_silnik.goPercentage(100);
+
+
 
 void setup() {
   Serial.begin(9600);
+192021222324252627282930313233343536373839404142434445464748495051
+  
+  Serial.println("Skręt na środek");
+  moje_serwo.write(PROSTO);
+  delay(1000);  
+}
+
+
   moj_silnik.begin();
   moje_serwo.attach(SERWO_PIN);
 }
@@ -62,4 +89,12 @@ void loop() {
   Serial.println("Skręt na środek");
   moje_serwo.write(PROSTO);
   delay(1000);  
+}
+
+// Dostosowanie klasy serwo
+void ServoTP::write(int value) {
+  long value_us = ((long)value * (2400-550)) / 170 + 550;
+  this->writeMicroseconds((int)(value_us));
+  Serial.println(value);
+  Serial.println(value_us);
 }
