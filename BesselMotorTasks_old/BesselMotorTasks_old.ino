@@ -1,19 +1,31 @@
 #include "FablabL298Driver.h"
-#include "ServoTP.h"
+#include <Servo.h>
 
-// Kątowe skrajne wychylenie dla poszczegolnych serw w lewo i w prawo
-#define FL_LEFT       25
-#define FL_RIGHT      115
-#define FR_LEFT       70
-#define FR_RIGHT      160
-#define RL_LEFT       160
-#define RL_RIGHT      70
-#define RR_LEFT       115
-#define RR_RIGHT      25
+#define FL_LEFT     0
+#define FR_LEFT     0
+#define RL_LEFT     0
+#define RR_LEFT     0
+#define FL_RIGHT    0
+#define FR_RIGHT    0
+#define RR_RIGHT    0
+#define RL_RIGHT    0
+#define FL_STRAIGHT 0
+#define FR_STRAIGHT 0
+#define RL_STRAIGHT 0
+#define RR_STRAIGHT 0
 
-// // Serial pins
-// const int RX_PIN = 0;
-// const int TX_PIN = 1;
+class ServoTP: public Servo {
+public:
+  void write(int);
+  void attach(int, int,int);
+private:
+  int lewa_granica;
+  int prawa_granica;
+};
+
+// Serial pins
+const int RX_PIN = 0;
+const int TX_PIN = 1;
 
 // Motor pins
 const int ENA_PIN_L = 3;
@@ -63,71 +75,40 @@ void setup() {
 void loop() {
 
   // 1 pojechac do przodu silnikami z szybkością 50%
-  Serial.println(1);
-  motor_L.forward();
-  motor_R.forward();
-  motor_L.goPercentage(50);
-  motor_R.goPercentage(50);
-  delay(1000);
-  
+
   // 2 skrecic w lewo 50%
-  Serial.println(2);
-  servo_FL.write(-50);
-  servo_FR.write(-50);
-  servo_RL.write(-50);
-  servo_RR.write(-50);
-  delay(1000);
  
   // 3 skrecic w prawo 75%
-  Serial.println(3);
-  servo_FL.write(75);
-  servo_FR.write(75);
-  servo_RL.write(75);
-  servo_RR.write(75);
-  delay(1000);
 
   // 4 pojechac do tyłu z szybkością 30%
-  Serial.println(4);
-  motor_L.backward();
-  motor_R.backward();
-  motor_L.goPercentage(30);
-  motor_R.goPercentage(30);
-  delay(1000);
 
   // 5 obkręcić się w lewo
-  Serial.println(5);
-  motor_L.forward();
-  motor_R.forward();
-  motor_L.goPercentage(50);
-  motor_R.goPercentage(50);
-  delay(1000);
 
-  // 6 obkręcić się w prawo z szybkością 50%
-  Serial.println(6);
-  motor_L.backward();
-  motor_R.forward();
-  motor_L.goPercentage(50);
-  motor_R.goPercentage(50);
-  servo_FL.write(100);
-  servo_FR.write(-100);
-  servo_RL.write(75);
-  servo_RR.write(75);
-  delay(1000);
+  // 6 obkręcić się w prawo
 
   // 7 w lewo 50% i do przodu 50%
-  Serial.println(7);
-  motor_L.forward();
-  motor_R.forward();
-  motor_L.goPercentage(50);
-  motor_R.goPercentage(50);
-  delay(1000);
 
   // 8 w prawo 50% i do przodu 50%
-  Serial.println(8);
-  motor_L.forward();
-  motor_R.forward();
-  motor_L.goPercentage(50);
-  motor_R.goPercentage(50);
-  delay(1000);
 
+  delay(100);
+}
+
+// -100 100 = max lewo max prawo
+void ServoTP::write(int value) {
+  if( value > 100 )
+    value = 100;
+  else if ( value < -100 )
+    value = -100;
+  
+  value = (value+100) * (prawa_granica - lewa_granica) / (100+100) + lewa_granica;
+  long value_us = ((long)value * (2400-550)) / 170 + 550;
+  this->writeMicroseconds((int)(value_us));
+  Serial.println(value);
+  Serial.println(value_us);
+}
+
+void ServoTP::attach(int pin, int prawa, int lewa) {
+  prawa_granica = prawa;
+  lewa_granica = lewa;
+  ((Servo*)this)->attach(pin);
 }

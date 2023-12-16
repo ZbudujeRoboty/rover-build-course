@@ -94,7 +94,6 @@ void FablabL298Driver::goPercentage(uint8_t percentage) {
 	if(percentage == 0) {
 		// Stops the Motor
 		checkWrite(0);
-    return;
 	}
 	// Make Sure You Are Between The Limits
 	percentage = map(percentage, 1, 100, _min_speed, _max_speed);
